@@ -1,0 +1,20 @@
+
+
+* emacs网址相关:
+最近在学习emacs,因而找到了一些比较好的网址,此处把他们记录下来.
+** evil
+https://bitmingw.com/2017/03/12/spacemacs-evil-mode/
+** org
+1. 使用org-mode进行时间管理:
+   1. https://blog.csdn.net/lujun9972/article/details/46002599
+   2. https://blog.csdn.net/lujun9972/article/details/46002601
+   3. https://blog.csdn.net/lujun9972/article/details/46002603
+   4. https://blog.csdn.net/lujun9972/article/details/46002605
+   5. https://blog.csdn.net/lujun9972/article/details/46002607
+   6. https://blog.csdn.net/lujun9972/article/details/46002609
+2. 这里有一个可以插入截图的,有时间可以看一下. https://blog.csdn.net/u011729865/article/details/52628417
+3. org-mode简明手册,非常值得学习.必须多看多看多看 https://www.cnblogs.com/Open_Source/archive/2011/07/17/2108747.html#sec-5-1
+4. 用emacs管理博客园博客,这个一定要看!https://www.cnblogs.com/Open_Source/archive/2012/09/14/2684897.html
+** 配置
+** elisp
+** 其他
