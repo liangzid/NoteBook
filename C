@@ -69,3 +69,8 @@ interface IEquatable<T>
             Console.WriteLine($"point1 is equal to point 2? {p1.equal(p2)}");
         }
 ```
+## 属性 attribute
+属性是一种成员，他不是字段！不是对象里面的数据！
+> 属性可用作公共数据成员，但它们实际上是称为访问器的特殊方法。
+属性的特点:
+![enter description here](./images/1558441551827.png)
