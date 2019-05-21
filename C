@@ -74,3 +74,73 @@ interface IEquatable<T>
 > 属性可用作公共数据成员，但它们实际上是称为访问器的特殊方法。
 属性的特点:
 ![enter description here](./images/1558441551827.png)
+比如下面的例子:对于公有属性Hours,既可以通过get方法获取数值,也可以通过set进行是否符合物理意义的检验.
+![enter description here](./images/1558441690764.png)
+这里的get和set被称为是访问器.
+### 使用表达式主体进行属性的get和set表达
+表达式主体是指这种格式:"=>".示例:
+```csharp
+//===============================示例1===================================================
+using System;
+
+public class Person
+{
+   private string _firstName;
+   private string _lastName;
+   
+   public Person(string first, string last) //struct function
+   {
+      _firstName = first;
+      _lastName = last;
+   }
+
+   public string Name => $"{_firstName} {_lastName}";//相当于定义了其set方法.   
+}
+
+public class Example
+{
+   public static void Main()
+   {
+      var person = new Person("Isabelle", "Butts");
+      Console.WriteLine(person.Name);
+   }
+}
+//===============================示例2===================================================
+//此处的语法与上面又有所不同,这里需要进行一定的区分
+
+using System;
+
+public class SaleItem
+{
+   string _name;
+   decimal _cost;
+   
+   public SaleItem(string name, decimal cost)
+   {
+      _name = name;
+      _cost = cost;
+   }
+
+   public string Name 
+   {
+      get => _name;
+      set => _name = value;
+   }
+
+   public decimal Price
+   {
+      get => _cost;
+      set => _cost = value; 
+   }
+}
+
+class Program
+{
+   static void Main(string[] args)
+   {
+      var item = new SaleItem("Shoes", 19.95m);
+      Console.WriteLine($"{item.Name}: sells for {item.Price:C2}");
+   }
+}
+
+```
