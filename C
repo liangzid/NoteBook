@@ -142,8 +142,68 @@ class Program
       Console.WriteLine($"{item.Name}: sells for {item.Price:C2}");
    }
 }
-
 // The example displays output like the following:
 //       Shoes: sells for $19.95
 
 ```
+根据阅读以上程序,可以看出:**本质上,属性是一种方法的集合,该方法使用对象中的私有字段进行输出或者变相显示.**
+### 自动实现的属性
+这一部分仅供看看.
+```csharp
+using System;
+
+public class SaleItem
+{
+   public string Name 
+   { get; set; }
+
+   public decimal Price
+   { get; set; }
+}
+
+class Program
+{
+   static void Main(string[] args)
+   {
+      var item = new SaleItem{ Name = "Shoes", Price = 19.95m };
+      Console.WriteLine($"{item.Name}: sells for {item.Price:C2}");
+   }
+}
+// The example displays output like the following:
+//       Shoes: sells for $19.95
+```
+属性结合了字段和方法的多个方面。
+对于对象的用户来说，属性似乎是一个字段，访问属性需要相同的语法。 
+对于类的实现者来说，属性是一两个代码块，表示 get 访问器和/或 set 访问器。 读取属性时，执行 get 访问器的代码块；向属性赋予新值时，执行 set 访问器的代码块。 
+
+将不带 set 访问器的属性视为只读。 将不带 get 访问器的属性视为只写。 将具有以上两个访问器的属性视为读写。
+
+与字段不同，属性不会被归类为变量。 因此，**不能将属性作为 ref 或 out 参数传递**。
+属性具有许多用途：它们可以先验证数据，再允许进行更改；可以在类上透明地公开数据，其中数据实际是从某个其他源（如数据库）检索到的；可以在数据发生更改时采取措施，例如引发事件或更改其他字段的值。
+示例:
+```csharp
+public class Date
+{
+    private int month = 7;  // Backing store
+
+    public int Month
+    {
+        get
+        {
+            return month;
+        }
+        set
+        {
+            if ((value > 0) && (value < 13))
+            {
+                month = value;
+            }
+        }
+    }
+}
+```
+### 备注
+1. 可以将属性标记为 public、private、protected、internal、protected internal 或 private protected。 这些访问修饰符定义该类的用户访问该属性的方式。 相同属性的 get 和 set 访问器可以具有不同的访问修饰符。 例如，get 可能为 public允许从类型外部进行只读访问；而 set 可能为 private 或 protected
+2. 这一个没看懂:MSDN说可以声明静态的属性,但是我们知道,静态的属性可以在对象没有被创建的时候被引用,我认为这里可能会出现一些额外的问题.
+3. 可以通过使用 virtual 关键字将属性标记为虚拟属性。 这可使派生类使用 override 关键字重写属性行为。重写虚拟属性的属性也可以是 sealed，指定对于派生类，它不再是虚拟的。 最后，可以将属性声明为 abstract。 这意味着类中没有实现，派生类必须写入自己的实现。
+
