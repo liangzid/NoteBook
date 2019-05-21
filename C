@@ -1,0 +1,71 @@
+---
+title: C#课程拾遗
+tags: C#与.net框架学习
+grammar_cjkRuby: true
+---
+
+> 近期在学习C#课程，这是系列笔记的第一篇。
+
+参考：https://docs.microsoft.com/zh-cn/dotnet/standard/
+
+# "\$"在输出字符串中的作用
+考虑以下代码:
+```csharp
+var names=new List<string> {"liangzi","laisimiao","haha"};
+foreach(var name in names)
+{
+    Console.WriteLine($"hello {name}");
+    Console.WriteLine($"hello {name.ToUpper()}");
+}
+Console.WriteLine(names.IndexOf("liangzi"));
+```
+注意到,在输出的writeline方法盗用的字符串前面有一个\$符号,该符号表明:可以在大括号中嵌入Csharp代码,比如文中的name.ToUpper()方法,该方法是将一个英文字母全部转化为大写.以后在写C#时要时刻注意这个方法
+# 某些与课上稍微有冲突而不再使用的类型 
+## List类型
+类似于C++中的Vector,C#提供了List类型进行使用,使用方式也是
+```
+List<T>
+```
+这里不做赘述
+## From HashTable To Dictionary
+如果是用更加一般的泛型,与其采用hashtable不如使用Dictionary< T >类型,该类型被官网认为更加适合使用和执行.
+# 知识点方面的补充
+## 接口 interface
+由于C#不允许多继承，因而使用接口来对一些特殊的属性或者方法进行特殊的继承就尤其重要．例如下面的代码：　
+```csharp
+//定义如下：
+interface IEquatable<T>
+{
+	bool Equals(T obj);
+}
+```
+接口不必去考虑实现（就像抽象类一样）。注意：**接口的成员不能是静态成员**。
+![enter description here](https://www.github.com/liangzid/NoteBook/raw/master/小书匠/1558440473328.png)
+对于上述接口的一个实现如下：
+```csharp
+
+    interface IEquable<T>
+    {
+        bool equal(T obj);
+    }
+    class Point:IEquable<Point>
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public bool equal(Point point)
+        {
+            return this.x == point.x && this.y == point.y;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var p1 = new Point();
+            var p2 = new Point();
+            p1.x = 1;
+            p1.y = 2;
+            p2.x = 1;p2.y = 1;
+            Console.WriteLine($"point1 is equal to point 2? {p1.equal(p2)}");
+        }
+```
