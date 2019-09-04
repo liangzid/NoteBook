@@ -1,0 +1,40 @@
+* install emacs in ubuntu16.04
+1.the emacs version: 25.1
+2.the ubuntu version:16.04
+
+** install emacs25.1
+```bash
+sudo apt-add-repository -y ppa:adrozdoff/emacs
+sudo apt update
+sudo apt install emacs25
+```
+** install spacemacs
+
+reference: [](https://frapples.github.io/articles/2016-12-02-69e1.html)
+1. if you have git, just git clone it using:
+```bash
+t clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
+```
+2. open emacs. after answering the question, you might need to change the mirror because the web is so slow if you live in China. 
+  how to change it?
+  
+  you can open ~/.spacemacs, find "(defun dotspacemacs/user-init ())"and writing```txt
+(setq configuration-layer--elpa-archives
+      '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
+        ("org-cn"   . "http://elpa.zilongshanren.com/org/")
+        ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
+```
+or you can you use TingHua tuna mirror
+```bash
+(setq configuration-layer--elpa-archives
+    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+```
+and you can again download the configuration file.
+
+> until now the install of spacemacs in ubuntu is over.
+
+liangzid writed it in 2019,9,2 with vim :)
+
