@@ -23,8 +23,4 @@ grammar_mindmap: true
 很显然,这个元素序列B就是需要的sketch了!
 
 ## 并集的处理
-但是,但是,
-```python
-import numpy as np
-A=np.zeros((2,3
-```
+但是,但是,这里面寸
