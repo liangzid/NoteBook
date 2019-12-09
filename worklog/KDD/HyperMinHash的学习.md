@@ -7,6 +7,8 @@ grammar_mathjax: true
 grammar_mindmap: true
 ---
 为了做实验,今天下午和晚上又学习了HyperMinHash算法.该算法是一种采用OPH类似的想法获取sketch用_浮点数格式存储_(其实就是一个元组而已)的算法,因此可以保证在时间复杂度(OPH的贡献)和空间复杂度(floating-point store)上的双优.说来容易,或许是某种特殊的排斥心理,我在读这篇论文时产生了巨大的困难.下面尝试把他学明白,毕竟是需要我自我实现以做实验的.
+## sketch的生成
+
 该算法的大意如下图所示.
 ![enter description here](https://raw.githubusercontent.com/liangzid/LittleBook/master/小书匠/1575895437488.png)
 上述图片的运行步骤为:
@@ -20,3 +22,5 @@ grammar_mindmap: true
 
 很显然,这个元素序列B就是需要的sketch了!
 
+## 并集的处理
+但是
