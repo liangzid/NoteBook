@@ -1,0 +1,372 @@
+> 这篇笔记是我用org写的，在学习org的过程中进行的一个简单的记录。
+这篇笔记里所有的内容都来自于[[https://orgmode.org/guide/][orgmode compact guide]].
+
+* DONE introduction: a welcome of org mode
+** 激活
+当你初次使用一个emacs,且你并没有什么配置的时候,如何从零开始配置org呢?首先,尝试将以下代码复制到init.el文件里,当然,也可以是合理的其他位置.这样做的目的是为了激活快捷键.
+```
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+```
+* DONE document structure 文档结构
+文档结构被认为是文档的骨架,也就是一个"书"状的层次结构.
+** headlines
+就是一级标题,二级标题等等.一般可以通过以下方式进行表达:
+
+
+#+BEGIN_SRC org
+
+  * 一级标题
+  ** 二级标题
+  *** 三级标题
+
+#+END_SRC
+
+
+此外,可以通过"M-<ENTER>"键一键形成一个同等的一级标题.可以使用TAB将这个一级标题转换为一个二级标题.
+一般,当打开一个org文档时,这个org文档仅仅会展露出一个骨架.此时可以通过TAB将这个骨架进行展开.
+** 在可见度上的遮盖与打开 visibility cycling
+也就是在可见度之间的一种循环.前面有所介绍.
+1. 最常用的方法是使用TAB.如:
+,-> folded FOLDED -> children CHILDREN -> subtree SUBTREE --.
+'-----------------------------------------------------------'
+2. 使用S-TAB在以下场景下实现循环.
+,-> OVERVIEW -> CONTENTS -> SHOW ALL --.
+'--------------------------------------'
+3. 使用C-u C-u C-u TAB ,实现show all 的功能.
+4. 自定义一个org文档起始时刻应该具有的结构.
+一般而言,可以在org文档的开头这么写:
+
+#+BEGIN_SRC org
+
+  #+STARTUP:content
+
+#+END_SRC
+还可以设置变量比如:overview,content,showall等.
+** 在headline之间的跳动
+有的时候,是想直接在headline之间进行跳动的.这些过程通常可以经由以下快捷键进行展示.
+值得注意的是,这些快捷键显然是C-c加上了一些独特的后缀.
+C-c C-n Next heading.从当前文本跳跃到上一个headline处,或从当前的headline跳跃到上一个headline处,而不论上一个headline是否与此处的headline同级别.你可以通过这个按钮跳跃到与光标相比最近的上一个headline处.
+C-c C-p Previous heading.类上
+C-c C-f Next heading same level 只会在同一level的headline之间跳转,并且归于他们的上级那里,出不去.
+C-c C-b provious heading same level类上
+C-c C-u backward to higher level headings.?
+** 结构编辑 structure editing
+ 结构编辑主要存在以下快捷键.
+ 1. M-RET 添加一个同级别的headline
+ 2. M-S-RET 添加一个同级别的todo headline
+ 3. M-LEFT M-RIGHT 将当前headline升级或者降级 
+ 4. M-UP M-DOWN 将当前headline同其包括的所有内容上移或者下移
+ 5. C-c C-W 将本healine的所有内容归属到另一个一级标题之下
+ 6. C-x n s C-x n w 在buffer层面进行移动
+** sparse trees
+   sparse tree 是一种有侧重地进行"目标选择"的工具.(不太确定,我目前这样理解这一功能)
+针对这种工具,基本的使用方法有:
+1. C-c / 这可以打开一个sparse tree 按钮
+2. C-c / r 关键字搜素.比如,在本文中,搜素和展示有关headline的内容.
+
+** plain list 简单的列表
+简单的列表可以通过以下标记符号进行快速地创建.
+使用"-" "+" "*" 进行无序号列表的创建,使用"1." "1 "进行有序号列表的创建.使用"::"进行解释.
+下面是一个例子.值得注意的是,这里"::"充当的作用,与latex中\label极为相似.二者都是在给出一个方便于引用的对象.关于如何应用之,可以看[[外部链接]].
+
+#+BEGIN_SRC org
+
+  * Lord of the Rings
+    My favorite scenes are (in this order)
+    1. The attack of the Rohirrim
+    2. Eowyn's fight with the witch king
+       + this was already my favorite scene in the book
+       + I really like Miranda Otto.
+    Important actors in this film are:
+    - Elijah Wood :: He plays Frodo
+    - Sean Astin :: He plays Sam, Frodo's friend.
+
+#+END_SRC
+* DONE table 表格的使用 
+表格的使用主要通过"|"符号实现
+一般一个表格是需要通过这样子完成的
+| Name  | Phone | Age |
+|-------+-------+-----|
+| Peter |  1234 |  17 |
+| Anna  |  4321 |  25 |
+|       |       |     |
+|       |       |     |
+
+#+BEGIN_SRC org
+  | Name  | Phone | Age |
+  |-------+-------+-----|
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+  |       |       |     |
+  |       |       |     |
+
+#+END_SRC
+
+但是,显然,可以看出,这样的表格无法进行高效的输入,因为中间那行长长的横线很烦人.解决方案通常是:当你输入了"|-"之后,直接使用TAB进行自动补充.除此之外,你也可以通过TAB形成一个新的填空.
+** 使用C-c | 形成一个新的表格
+如题所述,虽然不怎么常用.
+** cell基本变换
++ C-c C-c 在不移动点的前提下重新对齐表格
++ TAB 横向,移动到下一个
++ S-TAB 横向,前一个
++ RET 下一行
++ S-方向键 让当前的cell和周围的某个cell进行交换
+** DONE 行与列的变化
+行与列的变换都是基于"M"进行的.
+1. M-LEFT M-RIGHT 将当前的列左移或者右移
+2. M-UP M-DOWN 将当前行上移或者下移
+3. M-S-LEFT 删除当前列
+4. M-S-RIGHT 插入新列
+5. M-S-UP 删除当前行
+6. M-S-DOWN 插入新行
+7. C-c -, C-c RET 分别表示插入一条horizontal line,在下面,或者上面
+8. C-c ^ 列排序
+
+* DONE hyperlinks 超链接
+超链接,不用多数,一般遵循"[[links][description]]"这样的结构[ [links] [description] ].对其进行编辑,可以通过C-c C-l进行.
+
+** 内部链接
+内部链接这里作者并没有给出详细的阐述.笔者尝试了以下,对于特殊的一些格式似乎都是可以识别的.
+
+** 外部链接
+首先,罗列一些典型的外部链接:
+‘http://www.astro.uva.nl/=dominik’	on the web
+‘file:/home/dominik/images/jupiter.jpg’	file, absolute path
+‘/home/dominik/images/jupiter.jpg’	same as above
+‘file:papers/last.pdf’	file, relative path
+‘./papers/last.pdf’	same as above
+‘file:projects.org’	another Org file
+‘docview:papers/last.pdf::NNN’	open in DocView mode at page NNN
+‘id:B7423F4D-2E8A-471B-8810-C40F074717E9’	link to heading by ID
+‘news:comp.emacs’	Usenet link
+‘mailto:adent@galaxy.net’	mail link
+‘mhe:folder#id’	MH-E message link
+‘rmail:folder#id’	Rmail message link
+‘gnus:group#id’	Gnus article link
+‘bbdb:R.*Stallman’	BBDB link (with regexp)
+‘irc:/irc.com/#emacs/bob’	IRC link
+‘info:org#Hyperlinks’	Info node link
+
+除此之外,还有一些特殊情况,这些特殊情况包括:
+‘file:~/code/main.c::255’	Find line 255
+‘file:~/xx.org::My Target’	Find ‘<<My Target>>’
+‘[[file:~/xx.org::#my-custom-id]]’	Find entry with a custom ID
+
+** handling links, 处理链接
+1. C-c C-l 插入一个链接.当该处存在链接时,其意义是修改一个链接.
+2. C-c C-o 打开一个链接.
+* DONE todo iteems  待办项目
+** 有关todo的基本操作
+当一个items的前面包含todo的时候,它就变成了一个todo 的item.
+一般而言,todo的基本命令如下:
+1. C-c C-t 打开todo选项.
+2. S-左右 cycling todo的状态吧.
+3. C-c / t  在sparse tree里看todo.有关于sparse tree的信息参见[[sparse tree][这里]].
+4. M-x org-agenda t 展现出全局的todo
+5. S-M-RET 输入一个新的todo.
+
+** DONE muti-state workflow  多态工作流
+# 这部分内容不太感兴趣,因而暂时搁置(主要是觉得暂时用不到,哈哈.)以后会更新的吧.
+# 参考链接:[[https://orgmode.org/guide/Multi_002dstate-Workflow.html#Multi_002dstate-Workflow][此处]].
+muti-state指的就是"并非所有的待办都是todo->done"循环的产物.比如debug的过程,可能是下面的形式.
+
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "|" "DONE(d)")
+	  (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")))
+
+#+END_SRC
+
+
+这时,简简单单使用todo这一套就不太管用了.我觉得这里的东西没什么太多的实际用途.
+** Progress Logging 进展记录
+进展记录,最简单的使用方法是通过引入一个前缀"C-u",来加入一个时间戳.也就是通过"C-u C-c C-t"来改变todo项目的状态.
+emacs里面有专门的时间记录,详细可参阅[[https://orgmode.org/guide/Clocking-Work-Time.html#Clocking-Work-Time][此处]].
+*** TODO 阅读clocking working time
+*** closing items 关闭项目
+通过引入
+(setq org-log-done 'time)
+使得每次有一个item被标记为done之后,都会插入一个时间戳.
+同样地,也可以通过引入
+(setq org-log-done 'note)
+在结束项目的地方插入一行注释.
+*** tracking todo state changes 
+没兴趣做.略.
+** Priorities 优先级
+就是对todo设置优先级的问题.一般优先级会用ABC进行表达.
+1. "C-c ,",设置优先级,可以输入ABC.通过空格键进行移除.
+2. S-上下 改变优先级.
+** break tasks down into subtasks 将任务分解为子任务
+在父标题下使用[/]或者[%],之后,在子标题里设置todo的状态,就可以了.
+** checkboxes 复选框
+在使用plain list的时候,可能会用到这个功能来进行进度管理.
+比如下面的例子:
+
+#+BEGIN_SRC org
+
+  * TODO Organize party [1/2]
+    - [ ] call people [0/2]
+      - [ ] Peter
+      - [ ] Sarah
+    - [X] order food
+  使用C-c C-c来进行checkboxes状态的切换.
+
+#+END_SRC
+
+* DONE Tags 标签
+标签是用来进行交叉引用的一类东西,标签类似于完成latex里label的功能.标签一般被放在headline的后面,前与后都用":"作为连接.下面是一个简单的例子.
+
+#+BEGIN_SRC org
+  * Meeting with the French group      :work:
+  ** Summary by Frank                  :boss:notes:
+  *** TODO Prepare slides for him      :action:
+#+END_SRC
+
+** tag inheritance 标签层级
+以上面的例子为示,标签的层级具有一定的关联性.比如最后的headline,它包含着所有的标签,也就是,他继承了他的父标题以及祖父标题的标签.
+
+当然,也可以在文章中定义标签,这种定义方法为:
+
+#+BEGIN_SRC org
+  #+FILETAGS: :Peter:Boss:Secret:
+#+END_SRC
+
+** 设置标签                                                  :test:
+1. M-TAB 无法使用,与系统的页面转换重合
+2. C-c C-q 为当前的headline插入一个tag
+3. C-c C-c 当光标在headline时,同2
+
+除了前面那种一个个插入标签的方法之外,org支持插入一个标签列表,其基本语法为:
+
+#+BEGIN_SRC org
+  #+TAGS: @work @home @tennisclub
+  #+TAGS: laptop car pc sailboat
+
+#+END_SRC
+
+除此之外,emacs支持快速标签选择,也就是一个按键输入一个标签,这需要在配置文件中写入:
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-tag-alist '(("@work" . ?w)
+			("@home" . ?h)
+			("@laptop" . ?l)))
+#+END_SRC
+
+** 标签组
+标签组是很多个标签组成的集合.他的用途是:当进行标签的搜索时,如果输入了标签组的名字,那么就可以返回匹配标签组内所有标签headlines
+标签组的定义方法如下.
+
+#+BEGIN_SRC org
+  #+TAGS: [GTD : Control Persp]
+  #+TAGS: {Context : @home @work}
+#+END_SRC
+
+** 标签的搜索
+1. C-c / m or C-c \  生成一个sparse tree,
+2. M-x org-agenda m  通过agenda file 生成一个全局的标签匹配列表
+3. M-x org-agenda M  在2的基础上,仅仅显示带有TODO标签的那些.
+
+值得注意的是,这些标签均支持布尔运算.比如使用"a+b-c"代表包含a标签并包含b标签且不包含c标签的所有匹配项.使用"x|y"代表包含x标签或包含y标签的匹配项.
+
+
+* TODO [#B] Properties
+
+* TODO [#B] dates and times
+
+* TODO [#B] capture, refile, archive
+
+* TODO [#A] agenda views
+
+* TODO [#B] markup
+
+* TODO [#A] exporting
+
+* TODO [#B] publishing
+
+* TODO working with source code 在笔记里插入源码[%]
+org 在编辑源码,运行源码,tangling源码与导出源码上都有一些贡献.
+一般来说,一个源码都可以表现成下面的格式:
+#+NAME: <name>
+#+BEGIN_SRC <language> <switches> <header arguments>
+  <body>
+#+END_SRC
+
+其中
+  -  ‘<name>’ is a string used to uniquely name the code block,
+  -  ‘<language>’ specifies the language of the code block, e.g., ‘emacs-lisp’, ‘shell’, ‘R’, ‘python’, etc.,
+  -  ‘<switches>’ can be used to control export of the code block,
+  -  ‘<header arguments>’ can be used to control many aspects of code block behavior as demonstrated below,
+  -  ‘<body>’ contains the actual source code. 
+
+通过C-c '进行代码块的编辑，但是常常的一串呢？都需要输入吗？不是这样的。
+从[[http://wenshanren.org/?p=327][此处]]找到了一个自定义的解决方案,我觉得或许可以.
+首先,把下面的函数放入init文件中.
+
+
+#+BEGIN_SRC emacs-lisp
+  (defun org-insert-src-block (src-code-type)
+    "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+    (interactive
+     (let ((src-code-types
+	    '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+	      "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+	      "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+	      "scheme" "sqlite")))
+       (list (ido-completing-read "Source code type: " src-code-types))))
+    (progn
+      (newline-and-indent)
+      (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+      (newline-and-indent)
+      (insert "#+END_SRC\n")
+      (previous-line 2)
+      (org-edit-src-code)))
+
+#+END_SRC
+
+
+之后，将下列快捷键绑定
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook '(lambda ()
+			      ;; turn on flyspell-mode by default
+			      (flyspell-mode 1)
+			      ;; C-TAB for expanding
+			      (local-set-key (kbd "C-<tab>")
+					     'yas/expand-from-trigger-key)
+			      ;; keybinding for editing source code blocks
+			      (local-set-key (kbd "C-c s e")
+					     'org-edit-src-code)
+			      ;; keybinding for inserting code blocks
+			      (local-set-key (kbd "C-c s i")
+					     'org-insert-src-block)
+			      ))
+#+END_SRC
+
+之后，就可以通过C-c s i 快捷键插入一个代码块了。
+此处参考[[http://wenshanren.org/?p=327]]的博客。
+
+下面对几个特殊环节进行简要介绍.
+这些内容均来自于[[https://orgmode.org/guide/Working-with-Source-Code.html#Working-with-Source-Code][这里]].
+** TODO using header arguments
+** TODO evaluating code blocks
+** TODO results of evaluation
+** TODO exporting code blocks
+** TODO extracting source code
+
+* TODO miscellaneous 
+
+
+
+
+
+
+
+
+
+
+
+
