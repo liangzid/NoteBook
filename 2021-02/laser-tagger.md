@@ -21,4 +21,7 @@
 1. keep： 对应的token保持不变；
 2. delete：对应的token删除；
 3. adding：在对应的token前面添加token组
+
+下图展示了一个常见的示例：
+
 ![enter description here](./images/1613782673319.png)
